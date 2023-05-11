@@ -12,28 +12,34 @@
   <body>
     <h1>Chrip Chirp, my dude!</h1>
     <div id="app">
-     <p v-if="message.length % 2 === 0">Even: {{ message }}</p>
-     <p v-else>Odd: {{ message }}</p>
+     <p v-if="!seenBirds.length">Welcome, {{ newbMessage }}</p>
+     <p v-else>Welcome back, {{ watcherMessage }}</p>
 
-     <p>this many birds: {{ count }}</p>
-     <button @click="incrementCount">Another Bird</button>
+     <p>I've seen this many birds: {{ count }}</p>
+     <button @click="incrementCount">Another Bird: check!</button>
      <br>
      <div class="add-bird-form">
-      <input v-model="newBird" type="text" placeholder="add a new kind of bird">
-      <button class="btn-name" @click="addBird">Add Bird Name</button>
+      <input v-model="newBird" type="text" placeholder="add a bird you saw">
+      <button class="btn-seen":disabled="!newBird.length" @click="addSeenBird">Saw That Bird!</button>
+      <input v-model="newBird" type="text" placeholder="add a bird you wish you saw">
+      <button class="btn-seek":disabled="!newBird.length" @click="addSeenBird">Gosh, I Wanna See That Bird</button>
      </div>
 
+     <h2>Birds You Saw Outside! *thanks*</h2>
+     <p v-if="!seenBirds.length">Go outside and find some birds!</p>
      <ul>
-        <li v-for="bird in listOfW">{{ bird }}</li>
-     </ul>
-     <ul>
-        <li v-for="bird in listOfS">{{bird}}</li>
-     </ul>
-     <h2>Birds You Added! *thanks*</h2>
-     <ul>
-      <li v-for="bird in addedBirds">{{bird}}</li>
+      <li v-for="bird in seenBirds">{{bird}}</li>
+    </ul>
+
+    <h2>Birds You Long For</h2>
+    <p v-if="!seekingBirds.length">What do you even yearn for, then?</p>
+    <ul>
+     <li v-for="bird in seekingBirds">{{bird}}</li>
    </ul>
    <h3> Sum Sounds</h3>
+   <input v-model="newNoise.bird" type="text" placeholder="what's the bird?">
+    <input v-model="newNoise.noise" type="text" placeholder="what's the noise?">
+    <button class="btn-noise":disabled="!newNoise.noise.length" @click="addNoise">Catalog That Racket</button>
      <ul>
         <li v-for="bird in Object.keys(noises)">{{ bird }}: "{{ noises[bird] }}"</li>
      </ul>
@@ -45,12 +51,13 @@
       const app = createApp({
         data() {
           return {
-            message: 'Lemme see ur Birds!',
-            count: 1,
+            newbMessage: 'Wanna see some birds?',
+            watcherMessage: 'Lemme see ur Birds!',
+            count: 0,
             newBird: '',
-            listOfW: ['wren', 'warbler', 'wattled bulbul', 'western whipbird', 'wood pewee'],
-            listOfS: ['sparrow', 'snowfinch', 'spurfowl', 'smoky honeyeater'],
-            addedBirds: [],
+            newNoise: {bird: '', noise: ''},
+            seenBirds: [],
+            seekingBirds: ['snowfinch', 'spurfowl', 'smoky honeyeater', 'wattled bulbul', 'western whipbird', 'wood pewee' ],
             noises: {
               duck: 'quack',
               wren: 'tweet',
@@ -60,14 +67,22 @@
         },
         methods: {
               incrementCount() {
-                console.log('click', this.count)
                 this.count++
               },
-              addBird() {
+              addSeenBird() {
+                this.seenBirds.push(this.newBird)
+                this.newBird = ''
+              },
+              addSeekingBird() {
                 this.addedBirds.push(this.newBird)
                 this.newBird = ''
-              }
+              },
+              addNoise() {
+                this.noises[this.newNoise.bird] = this.newNoise.noise
+                this.newNoise.bird = ''
+                this.newNoise.noise = ''
             }
+        }
       })
       app.mount('#app')
     </script>
