@@ -10,12 +10,32 @@
     <title>Vue Playground</title>
   </head>
   <body>
-    <h1>This is a page!</h1>
+    <h1>Chrip Chirp, my dude!</h1>
     <div id="app">
      <p v-if="message.length % 2 === 0">Even: {{ message }}</p>
      <p v-else>Odd: {{ message }}</p>
+
+     <p>this many birds: {{ count }}</p>
+     <button @click="incrementCount">Another Bird</button>
+     <br>
+     <div class="add-bird-form">
+      <input v-model="newBird" type="text" placeholder="add a new kind of bird">
+      <button class="btn-name" @click="addBird">Add Bird Name</button>
+     </div>
+
      <ul>
-        <li v-for="number in listOfNumbers">{{ number }}</li>
+        <li v-for="bird in listOfW">{{ bird }}</li>
+     </ul>
+     <ul>
+        <li v-for="bird in listOfS">{{bird}}</li>
+     </ul>
+     <h2>Birds You Added! *thanks*</h2>
+     <ul>
+      <li v-for="bird in addedBirds">{{bird}}</li>
+   </ul>
+   <h3> Sum Sounds</h3>
+     <ul>
+        <li v-for="bird in Object.keys(noises)">{{ bird }}: "{{ noises[bird] }}"</li>
      </ul>
     </div>
 
@@ -25,10 +45,29 @@
       const app = createApp({
         data() {
           return {
-            message: 'Hello it works!',
-            listOfNumbers: [1, 2, 3, 4, 5]
+            message: 'Lemme see ur Birds!',
+            count: 1,
+            newBird: '',
+            listOfW: ['wren', 'warbler', 'wattled bulbul', 'western whipbird', 'wood pewee'],
+            listOfS: ['sparrow', 'snowfinch', 'spurfowl', 'smoky honeyeater'],
+            addedBirds: [],
+            noises: {
+              duck: 'quack',
+              wren: 'tweet',
+              crow: 'caw'
+            }
           }
-        }
+        },
+        methods: {
+              incrementCount() {
+                console.log('click', this.count)
+                this.count++
+              },
+              addBird() {
+                this.addedBirds.push(this.newBird)
+                this.newBird = ''
+              }
+            }
       })
       app.mount('#app')
     </script>
