@@ -9,20 +9,21 @@
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <title>Vue Playground</title>
   </head>
+ 
   <body>
     <h1>Chrip Chirp, my dude!</h1>
-    <div id="app">
-     <p v-if="!seenBirds.length">Welcome, {{ newbMessage }}</p>
+    <div id="app"> 
+      <p v-if="!seenBirds.length">Welcome, {{ newbMessage }}</p>
      <p v-else>Welcome back, {{ watcherMessage }}</p>
 
      <p>I've seen this many birds: {{ count }}</p>
      <button @click="incrementCount">Another Bird: check!</button>
      <br>
      <div class="add-bird-form">
-      <input v-model="newBird" type="text" placeholder="add a bird you saw">
-      <button class="btn-seen":disabled="!newBird.length" @click="addSeenBird">Saw That Bird!</button>
-      <input v-model="newBird" type="text" placeholder="add a bird you wish you saw">
-      <button class="btn-seek":disabled="!newBird.length" @click="addSeenBird">Gosh, I Wanna See That Bird</button>
+      <input v-model="newSeenBird" type="text" placeholder="add a bird you saw">
+      <button class="btn-seen":disabled="!newSeenBird.length" @click="addSeenBird">Saw That Bird!</button>
+      <input v-model="newSoughtBird" type="text" placeholder="add a bird you wish you saw">
+      <button class="btn-seek":disabled="!newSoughtBird.length" @click="addSeenBird">Gosh, I Wanna See That Bird</button>
      </div>
 
      <h2>Birds You Saw Outside! *thanks*</h2>
@@ -44,47 +45,6 @@
         <li v-for="bird in Object.keys(noises)">{{ bird }}: "{{ noises[bird] }}"</li>
      </ul>
     </div>
-
- 
-    <script>
-      const {createApp} = Vue
-      const app = createApp({
-        data() {
-          return {
-            newbMessage: 'Wanna see some birds?',
-            watcherMessage: 'Lemme see ur Birds!',
-            count: 0,
-            newBird: '',
-            newNoise: {bird: '', noise: ''},
-            seenBirds: [],
-            seekingBirds: ['snowfinch', 'spurfowl', 'smoky honeyeater', 'wattled bulbul', 'western whipbird', 'wood pewee' ],
-            noises: {
-              duck: 'quack',
-              wren: 'tweet',
-              crow: 'caw'
-            }
-          }
-        },
-        methods: {
-              incrementCount() {
-                this.count++
-              },
-              addSeenBird() {
-                this.seenBirds.push(this.newBird)
-                this.newBird = ''
-              },
-              addSeekingBird() {
-                this.addedBirds.push(this.newBird)
-                this.newBird = ''
-              },
-              addNoise() {
-                this.noises[this.newNoise.bird] = this.newNoise.noise
-                this.newNoise.bird = ''
-                this.newNoise.noise = ''
-            }
-        }
-      })
-      app.mount('#app')
-    </script>
+    <script src="app.js"></script>
   </body>
 </html>
